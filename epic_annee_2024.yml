@@ -10,6 +10,7 @@ pipeline {
     stages {
         stage('Printing Parameters') {
             steps {
+                
                 echo "Hello ${params.NAME}"
                 echo "Job Details: ${params.DESC}"
                 echo "Skip Running Test case ?: ${params.SKIP_TEST}"
