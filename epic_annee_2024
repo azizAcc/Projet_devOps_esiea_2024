@@ -14,7 +14,7 @@ pipeline {
                     def codePython = readFile 'date.py'
 
                     // Exécuter le code Python
-                    def result = bat(script: "python - EOF\n${codePython}\nEOF", returnStatus: true)
+                    def result = bat(script: "python - \n${codePython}\n", returnStatus: true)
 
                     // Afficher la sortie de l'exécution
                     echo "Résultat de l'exécution du script : ${result}"
