@@ -1,3 +1,17 @@
+def getServerChoices(branch, environment) {
+        // Your logic to determine server choices based on branch and environment
+        if (branch == 'Master' && environment == 'Production') {
+            return ['ServerA', 'ServerB']
+        } else if (branch == 'Master' && environment == 'Development') {
+            return ['ServerC', 'ServerD']
+        } else if (branch == 'Dev') {
+            return ['ServerX', 'ServerY']
+        } else {
+            return ['No server choices available']
+        }
+    }            
+}
+
 pipeline {
     agent any
     parameters {
@@ -36,20 +50,6 @@ pipeline {
                 // Your logic to determine choices based on branch and environment
                 def serverChoices = getServerChoices(branch, environment)
                 return serverChoices
-            }
-            script {
-             def getServerChoices(branch, environment) {
-                    // Your logic to determine server choices based on branch and environment
-                    if (branch == 'Master' && environment == 'Production') {
-                        return ['ServerA', 'ServerB']
-                    } else if (branch == 'Master' && environment == 'Development') {
-                        return ['ServerC', 'ServerD']
-                    } else if (branch == 'Dev') {
-                        return ['ServerX', 'ServerY']
-                    } else {
-                        return ['No server choices available']
-                    }
-                }            
             }
         }
     }
