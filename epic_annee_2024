@@ -64,6 +64,7 @@ pipeline {
                     ])
                 }
             }
+        }
         stage('Exécuter le script Python') {
             steps {
                 script {
