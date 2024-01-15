@@ -17,7 +17,7 @@ pipeline {
                 //# echo "Branch Choice: ${params.BRANCH}"
                // # echo "SONAR Password: ${params.SONAR_SERVER_PWD}"
                 script {
-                def currentDate = sh(script: "python3 ./date.py", returnStdout: true).trim() 
+                def currentDate = sh(script: "python3 date.py", returnStdout: true).trim() 
                 echo "Current Date: ${currentDate}"
                 }
             }
