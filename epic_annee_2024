@@ -25,6 +25,31 @@ pipeline {
             "Octobre | Savoir ce recycler",
             "Octobre | Acquérir de nouvel connaissance",
             "Novembre | Apprendre un nouvel instrument"], description: 'Sélectionnez les challenges du mois que vous souhaitez faire : ')
+
+        choice(name: 'BRANCH', choices: ['Master', 'Dev'], description: 'Choose branch')
+        choice(name: 'ENVIRONMENT', choices: ['Development', 'Production'], description: 'Choose environment')
+        activeChoiceReactiveParameter(name: 'TARGET_SERVER', description: 'Choose target server') {
+            script {
+                def getServerChoices(branch, environment) {
+                    // Your logic to determine server choices based on branch and environment
+                    if (branch == 'Master' && environment == 'Production') {
+                        return ['ServerA', 'ServerB']
+                    } else if (branch == 'Master' && environment == 'Development') {
+                        return ['ServerC', 'ServerD']
+                    } else if (branch == 'Dev') {
+                        return ['ServerX', 'ServerY']
+                    } else {
+                        return ['No server choices available']
+                    }
+                }
+                def branch = BRANCH
+                def environment = ENVIRONMENT
+    
+                // Your logic to determine choices based on branch and environment
+                def serverChoices = getServerChoices(branch, environment)
+                return serverChoices
+            }
+        }
     }
 
     stages {
