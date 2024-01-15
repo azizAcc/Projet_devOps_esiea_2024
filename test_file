@@ -1,35 +1,25 @@
 pipeline {
     agent any
-    script {
+    parameters {
         def random = new Random()
         def randomNumber = random.nextInt() // Generates a random integer
         if (randomNumber > 100) {
             // Add parameters specific to Release build
-            properties([
-                parameters([
-                    string(name: 'RELEASE_VERSION', defaultValue: '1.0', description: 'Enter release version'),
-                    booleanParam(name: 'SIGN_ARTIFACTS', defaultValue: false, description: 'Sign artifacts')
-                    // Add other parameters as needed for Release build
-                ])
-            ])
+
+            string(name: 'RELEASE_VERSION', defaultValue: '1.0', description: 'Enter release version'),
+            booleanParam(name: 'SIGN_ARTIFACTS', defaultValue: false, description: 'Sign artifacts')
         } else {
-            // Add parameters specific to Debug build
-            properties([
-                parameters([
-                    string(name: 'DEBUG_OPTIONS', defaultValue: '-g', description: 'Enter debug options')
-                    // Add other parameters as needed for Debug build
-                ])
-            ])
+            string(name: 'DEBUG_OPTIONS', defaultValue: '-g', description: 'Enter debug options')
         }
     }
 stage('Build') {
-            steps {
-                //echo "Selected Build Type: ${params.BUILD_TYPE}"
-                //echo "Release Version: ${params.RELEASE_VERSION}"
-                //echo "Sign Artifacts: ${params.SIGN_ARTIFACTS}"
-                //echo "Debug Options: ${params.DEBUG_OPTIONS}"
-                echo "heelo"
-                // Add your build logic here
-            }
+        steps {
+            //echo "Selected Build Type: ${params.BUILD_TYPE}"
+            //echo "Release Version: ${params.RELEASE_VERSION}"
+            //echo "Sign Artifacts: ${params.SIGN_ARTIFACTS}"
+            //echo "Debug Options: ${params.DEBUG_OPTIONS}"
+            echo "heelo"
+            // Add your build logic here
         }
     }
+}
