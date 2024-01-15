@@ -9,8 +9,7 @@ def getServerChoices(branch, environment) {
         } else {
             return ['No server choices available']
         }
-    }            
-}
+    }           
 
 pipeline {
     agent any
