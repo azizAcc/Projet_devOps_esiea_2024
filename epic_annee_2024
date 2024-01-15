@@ -41,7 +41,7 @@ pipeline {
 
         choice(name: 'BRANCH', choices: ['Master', 'Dev'], description: 'Choose branch')
         choice(name: 'ENVIRONMENT', choices: ['Development', 'Production'], description: 'Choose environment')
-        activeChoiceReactiveParameter(name: 'TARGET_SERVER', description: 'Choose target server') {
+        choice(name: 'TARGET_SERVER', description: 'Choose target server') {
             script {
                 def branch = BRANCH
                 def environment = ENVIRONMENT
