@@ -41,19 +41,29 @@ pipeline {
 
         choice(name: 'BRANCH', choices: ['Master', 'Dev'], description: 'Choose branch')
         choice(name: 'ENVIRONMENT', choices: ['Development', 'Production'], description: 'Choose environment')
-        choice(name: 'TARGET_SERVER', description: 'Choose target server') {
-            script {
-                def branch = BRANCH
-                def environment = ENVIRONMENT
-    
-                // Your logic to determine choices based on branch and environment
-                def serverChoices = getServerChoices(branch, environment)
-                return serverChoices
-            }
-        }
     }
 
     stages {
+        stage('Choose Target Server') {
+            steps {
+                script {
+                    // Call the function to get server choices based on selected branch and environment
+                    def serverChoices = getServerChoices(params.BRANCH, params.ENVIRONMENT)
+                    
+                    // Use activeChoice to dynamically set TARGET_SERVER based on serverChoices
+                    properties([
+                        parameters([
+                            [$class: 'ChoiceParameter',
+                             choiceType: 'PT_SINGLE_SELECT',
+                             description: 'Choose target server',
+                             filterLength: 1,
+                             filterable: false,
+                             name: 'TARGET_SERVER',
+                             script: [$class: 'GroovyScript', fallbackScript: '', script: ['return ' + serverChoices.inspect()]]]
+                        ])
+                    ])
+                }
+            }
         stage('Exécuter le script Python') {
             steps {
                 script {
