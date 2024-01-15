@@ -30,7 +30,15 @@ pipeline {
         choice(name: 'ENVIRONMENT', choices: ['Development', 'Production'], description: 'Choose environment')
         activeChoiceReactiveParameter(name: 'TARGET_SERVER', description: 'Choose target server') {
             script {
-                def getServerChoices(branch, environment) {
+                def branch = BRANCH
+                def environment = ENVIRONMENT
+    
+                // Your logic to determine choices based on branch and environment
+                def serverChoices = getServerChoices(branch, environment)
+                return serverChoices
+            }
+            script {
+             def getServerChoices(branch, environment) {
                     // Your logic to determine server choices based on branch and environment
                     if (branch == 'Master' && environment == 'Production') {
                         return ['ServerA', 'ServerB']
@@ -41,13 +49,7 @@ pipeline {
                     } else {
                         return ['No server choices available']
                     }
-                }
-                def branch = BRANCH
-                def environment = ENVIRONMENT
-    
-                // Your logic to determine choices based on branch and environment
-                def serverChoices = getServerChoices(branch, environment)
-                return serverChoices
+                }            
             }
         }
     }
