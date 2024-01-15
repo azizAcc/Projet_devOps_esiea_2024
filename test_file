@@ -1,0 +1,41 @@
+pipeline {
+    agent any
+    parameters {
+        choice(name: 'BUILD_TYPE', choices: ['Release', 'Debug'], description: 'Choose build type')
+    }
+    stages {
+        stage('Configure Parameters') {
+            steps {
+                script {
+                    if (params.BUILD_TYPE == 'Release') {
+                        // Add parameters specific to Release build
+                        properties([
+                            parameters([
+                                string(name: 'RELEASE_VERSION', defaultValue: '1.0', description: 'Enter release version'),
+                                booleanParam(name: 'SIGN_ARTIFACTS', defaultValue: false, description: 'Sign artifacts')
+                                // Add other parameters as needed for Release build
+                            ])
+                        ])
+                    } else {
+                        // Add parameters specific to Debug build
+                        properties([
+                            parameters([
+                                string(name: 'DEBUG_OPTIONS', defaultValue: '-g', description: 'Enter debug options')
+                                // Add other parameters as needed for Debug build
+                            ])
+                        ])
+                    }
+                }
+            }
+        }
+        stage('Build') {
+            steps {
+                echo "Selected Build Type: ${params.BUILD_TYPE}"
+                echo "Release Version: ${params.RELEASE_VERSION}"
+                echo "Sign Artifacts: ${params.SIGN_ARTIFACTS}"
+                echo "Debug Options: ${params.DEBUG_OPTIONS}"
+                // Add your build logic here
+            }
+        }
+    }
+}
