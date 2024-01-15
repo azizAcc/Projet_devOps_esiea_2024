@@ -28,7 +28,7 @@ stage('Build') {
                 //echo "Release Version: ${params.RELEASE_VERSION}"
                 //echo "Sign Artifacts: ${params.SIGN_ARTIFACTS}"
                 //echo "Debug Options: ${params.DEBUG_OPTIONS}"
-                echo "random number equal to ${randomNumber}"
+                echo "heelo"
                 // Add your build logic here
             }
         }
