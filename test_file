@@ -6,7 +6,7 @@ pipeline {
         if (randomNumber > 100) {
             // Add parameters specific to Release build
 
-            string(name: 'RELEASE_VERSION', defaultValue: '1.0', description: 'Enter release version'),
+            string(name: 'RELEASE_VERSION', defaultValue: '1.0', description: 'Enter release version')
             booleanParam(name: 'SIGN_ARTIFACTS', defaultValue: false, description: 'Sign artifacts')
         } else {
             string(name: 'DEBUG_OPTIONS', defaultValue: '-g', description: 'Enter debug options')
