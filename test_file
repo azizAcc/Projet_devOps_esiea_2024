@@ -1,63 +1,278 @@
 pipeline {
     agent any
-    parameters {
-        string(name: "NOM", description: 'Entrez votre nom')
-        string(name: "PRENOM", description: 'Entrez votre prenom')
-        password(name: "Projet_DevOps", description: 'Entrer un mot de passe')
-        extendedChoice(
-            name: 'CHALLENGES',
-            description: 'Selectionnez les challenges du mois que vous souhaitez faire :',
-            multiSelectDelimiter: ',',
-            type: 'PT_MULTI_SELECT',
-            value: '',
-            groovyScript: """
-                return [
-                "Janvier | Commencer a ecrire un journal",
-                "Fevrier | Faire de votre maison un espace agreable",
-                "Fevrier | Deconnecter du reste du monde et ou faire son nid",
-                "Mars | Mediter avoir plus de temps pour soi",
-                "Mars | Mieux manger",
-                "Mars | Faire plus d'exercice",
-                "Mars | Arreter de fumer",
-                "Avril | Faire des petits gestes",
-                "Avril | Dire des paroles aimables",
-                "Mai | Prenez des cours de salsa",
-                "Mai | Inscrivez-vous a un marathon",
-                "Juin | Sortir diner",
-                "Juin | Passer du temps avec les votres",
-                "Juillet | Profiter des grandes vacances",
-                "Juillet | Profiter des festivals",
-                "Aout | Prendre une couverture",
-                "Septembre | Explorez de nouveaux terrains",
-                "Septembre | Sortir de sa zone de confort",
-                "Octobre | Savoir se recycler",
-                "Octobre | Acquerir de nouvelles connaissances",
-                "Novembre | Apprendre un nouvel instrument",
-                "Decembre | Faire une prise de conscience sur comment respirer d'environ 5min par jour"
-                ]
-            """
-        )
+    parameters { 
+        string(name: 'NOM', description: 'Veuillez indiquer votre nom')
+        string(name: 'PRENOM', description: 'Veuillez indiquer votre prenom')
+        password(name: 'SONAR_SERVER_PWD', description: 'Entrer votre mot de passe SONAR')
+        choice(name: 'MOIS', choices: ['Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet','Aout', 'Septembre', 'Octobre','Novembre', 'Decembre'], description: 'Choisissez le mois')
+        choice(name: 'DATE_DU_JOUR', choices: ['1', '2', '3', '4', '5', '6', '7','8', '9', '10','11', '12','13', '14', '15', '16', '17', '18', '19','20', '21', '22','23', '24','25','26','27','28','29','30','31'], description: 'Quel est la date du jour ?')
+        choice(name: 'CHALLENGES', choices: ["Janvier | Commencer a ecrire un journal",
+                                              "Fevrier | Faire de votre maison un espace agreable",
+                                              "Fevrier | Deconnecter du reste du monde et ou faire son nid",
+                                              "Mars | Mediter avoir plus de temps pour soi",
+                                              "Mars | Mieux manger",
+                                              "Mars | Faire plus d'exercice",
+                                              "Mars | Arreter de fumer",
+                                              "Avril | Faire des petits gestes",
+                                              "Avril | Dire des paroles aimables",
+                                              "Mai | Prenez des cours de salsa",
+                                              "Mai | Inscrivez-vous a un marathon",
+                                              "Juin | Sortir diner",
+                                              "Juin | Passer du temps avec les votres",
+                                              "Juillet | Profiter des grandes vacances",
+                                              "Juillet | Profiter des festivals",
+                                              "Aout | Prendre une couverture",
+                                              "Septembre | Explorez de nouveaux terrains",
+                                              "Septembre | Sortir de sa zone de confort",
+                                              "Octobre | Savoir se recycler",
+                                              "Octobre | Acquerir de nouvelles connaissances",
+                                              "Novembre | Apprendre un nouvel instrument",
+                                              "Decembre | Faire une prise de conscience sur comment respirer d'environ 5min par jour"],
+                                              description: 'Entrer les challenge du mois que vous souahitez faire : ')
     }
-    stages {
-        stage('Afficher les parametres') {
-            steps {
-                echo "Nom: ${params.NOM}"
-                echo "Prenom: ${params.PRENOM}"
-                echo "Mot de passe: ${params.Projet_DevOps}"
-                echo "Challenges : ${params.CHALLENGES}"
-            }
-        }
 
-        stage('Executer le script Python') {
+    /* voici un exemple de stage --- courage */
+    stages {
+        stage('Janvier') {
             steps {
                 script {
-                    // Echapper aux guillemets doubles dans les challenges selectionnes
-                    def escapedChallenges = params.CHALLENGES.replaceAll('"', '\\"')
+                    def challenges = "${params.CHALLENGES}"
+                    def today = "${params.DATE_DU_JOUR}"
+                    def mois = "${params.MOIS}"
 
-                    // Executer le code Python a partir du fichier date.py avec les challenges selectionnes
-                    def result = bat(script: """python date.py "${escapedChallenges}" """, returnStatus: true)
-                    // Afficher la sortie de l'execution
-                    echo "Resultat de l'execution du script : ${result}"
+                    if (mois == "Janvier" && today == '1') {
+                        challenges = "Commencer a ecrire un journal"
+                        echo "Bienvenue au mois de $mois"
+                        echo "Voici les challenges possibles : $challenges"
+                        sleep 10
+                    } else if (mois == "Janvier" && today > '1' && today <= '20') {
+                        echo "Attention, nous sommes le $today du mois, il ne vous reste plus beaucoup de temps pour faire vos objectifs."
+                        sleep 10
+                    }
+                }
+            }
+        }
+        stage('Fevrier') {
+            steps {
+                script {
+                    def challenges = "${params.CHALLENGES}"
+                    def today = "${params.DATE_DU_JOUR}"
+                    def mois = "${params.MOIS}"
+
+                    if (mois == "Fevrier" && today == '1') {
+                        challenges = "Faire de votre maison un espace agreable, Deconnecter du reste du monde et ou faire son nid"
+                        echo "Bienvenue au mois de $mois"
+                        echo "Voici les challenges possibles : $challenges"
+                        sleep 10
+                    } else if (mois == "Fevrier" && today > '1' && today <= '20') {
+                        echo "Attention, nous sommes le $today du mois, il ne vous reste plus beaucoup de temps pour faire vos objectifs."
+                        sleep 10
+                    }
+                }
+            }
+        }
+        stage('Mars') {
+            steps {
+                script {
+                    def challenges = "${params.CHALLENGES}"
+                    def today = "${params.DATE_DU_JOUR}"
+                    def mois = "${params.MOIS}"
+
+                    if (mois == "Fevrier" && today == '1') {
+                        challenges = "Mediter avoir plus de temps pour soi, Mieux manger, Faire plus d'exercice, Arreter de fumer"
+                        echo "Bienvenue au mois de $mois"
+                        echo "Voici les challenges possibles : $challenges"
+                        sleep 10
+                    } else if (mois == "Fevrier" && today > '1' && today <= '20') {
+                        echo "Attention, nous sommes le $today du mois, il ne vous reste plus beaucoup de temps pour faire vos objectifs."
+                        sleep 10
+                    }
+                }
+            }
+        }
+        stage('Avril') {
+            steps {
+                script {
+                    def challenges = "${params.CHALLENGES}"
+                    def today = "${params.DATE_DU_JOUR}"
+                    def mois = "${params.MOIS}"
+
+                    if (mois == "Avril" && today == '1') {
+                        challenges = "Faire des petits gestes, Dire des paroles aimables"
+                        echo "Bienvenue au mois de $mois"
+                        echo "Voici les challenges possibles : $challenges"
+                        sleep 10
+                    } else if (mois == "Avril" && today > '1' && today <= '20') {
+                        echo "Attention, nous sommes le $today du mois, il ne vous reste plus beaucoup de temps pour faire vos objectifs."
+                        sleep 10
+                    }
+                }
+            }
+        }
+        stage('Mai') {
+            steps {
+                script {
+                    def challenges = "${params.CHALLENGES}"
+                    def today = "${params.DATE_DU_JOUR}"
+                    def mois = "${params.MOIS}"
+
+                    if (mois == "Mai" && today == '1') {
+                        challenges = "Prenez des cours de salsa, Inscrivez-vous a un marathon"
+                        echo "Bienvenue au mois de $mois"
+                        echo "Voici les challenges possibles : $challenges"
+                        sleep 10
+                    } else if (mois == "Mai" && today > '1' && today <= '20') {
+                        echo "Attention, nous sommes le $today du mois, il ne vous reste plus beaucoup de temps pour faire vos objectifs."
+                        sleep 10
+                    }
+                }
+            }
+        }
+        stage('Juin') {
+            steps {
+                script {
+                    def challenges = "${params.CHALLENGES}"
+                    def today = "${params.DATE_DU_JOUR}"
+                    def mois = "${params.MOIS}"
+
+                    if (mois == "Juin" && today == '1') {
+                        challenges = "Sortir diner, Passer du temps avec les votres"
+                        echo "Bienvenue au mois de $mois"
+                        echo "Voici les challenges possibles : $challenges"
+                        sleep 10
+                    } else if (mois == "Juin" && today > '1' && today <= '20') {
+                        echo "Attention, nous sommes le $today du mois, il ne vous reste plus beaucoup de temps pour faire vos objectifs."
+                        sleep 10
+                    }
+                }
+            }
+        }
+        stage('Juillet') {
+            steps {
+                script {
+                    def challenges = "${params.CHALLENGES}"
+                    def today = "${params.DATE_DU_JOUR}"
+                    def mois = "${params.MOIS}"
+
+                    if (mois == "Juillet" && today == '1') {
+                        challenges = "Profiter des grandes vacances, Profiter des festivals"
+                        echo "Bienvenue au mois de $mois"
+                        echo "Voici les challenges possibles : $challenges"
+                        sleep 10
+                    } else if (mois == "Juillet" && today > '1' && today <= '20') {
+                        echo "Attention, nous sommes le $today du mois, il ne vous reste plus beaucoup de temps pour faire vos objectifs."
+                        sleep 10
+                    }
+                }
+            }
+        }
+        stage('Aout') {
+            steps {
+                script {
+                    def challenges = "${params.CHALLENGES}"
+                    def today = "${params.DATE_DU_JOUR}"
+                    def mois = "${params.MOIS}"
+
+                    if (mois == "Aout" && today == '1') {
+                        challenges = "Prendre une couverture"
+                        echo "Bienvenue au mois de $mois"
+                        echo "Voici les challenges possibles : $challenges"
+                        sleep 10
+                    } else if (mois == "Aout" && today > '1' && today <= '20') {
+                        echo "Attention, nous sommes le $today du mois, il ne vous reste plus beaucoup de temps pour faire vos objectifs."
+                        sleep 10
+                    }
+                }
+            }
+        }
+        stage('Septembre') {
+            steps {
+                script {
+                    def challenges = "${params.CHALLENGES}"
+                    def today = "${params.DATE_DU_JOUR}"
+                    def mois = "${params.MOIS}"
+
+                    if (mois == "Septembre" && today == '1') {
+                        challenges = "Prendre une couverture"
+                        echo "Bienvenue au mois de $mois"
+                        echo "Voici les challenges possibles : $challenges"
+                        sleep 10
+                    } else if (mois == "Septembre" && today > '1' && today <= '20') {
+                        echo "Attention, nous sommes le $today du mois, il ne vous reste plus beaucoup de temps pour faire vos objectifs."
+                        sleep 10
+                    }
+                }
+            }
+        }
+        stage('Octobre') {
+            steps {
+                script {
+                    def challenges = "${params.CHALLENGES}"
+                    def today = "${params.DATE_DU_JOUR}"
+                    def mois = "${params.MOIS}"
+
+                    if (mois == "Octobre" && today == '1') {
+                        challenges = "Savoir se recycler, Acquerir de nouvelles connaissances"
+                        echo "Bienvenue au mois de $mois"
+                        echo "Voici les challenges possibles : $challenges"
+                        sleep 10
+                    } else if (mois == "Octobre" && today > '1' && today <= '20') {
+                        echo "Attention, nous sommes le $today du mois, il ne vous reste plus beaucoup de temps pour faire vos objectifs."
+                        sleep 10
+                    }
+                }
+            }
+        }
+        stage('Novembre') {
+            steps {
+                script {
+                    def challenges = "${params.CHALLENGES}"
+                    def today = "${params.DATE_DU_JOUR}"
+                    def mois = "${params.MOIS}"
+
+                    if (mois == "Novembre" && today == '1') {
+                        challenges = "Apprendre un nouvel instrument"
+                        echo "Bienvenue au mois de $mois"
+                        echo "Voici les challenges possibles : $challenges"
+                        sleep 10
+                    } else if (mois == "Novembre" && today > '1' && today <= '20') {
+                        echo "Attention, nous sommes le $today du mois, il ne vous reste plus beaucoup de temps pour faire vos objectifs."
+                        sleep 10
+                    }
+                }
+            }
+        }
+        stage('Decembre') {
+            steps {
+                script {
+                    def challenges = "${params.CHALLENGES}"
+                    def today = "${params.DATE_DU_JOUR}"
+                    def mois = "${params.MOIS}"
+
+                    if (mois == "Decembre" && today == '1') {
+                        challenges = "Faire une prise de conscience sur comment respirer d'environ 5min par jour"
+                        echo "Bienvenue au mois de $mois"
+                        echo "Voici les challenges possibles : $challenges"
+                        sleep 10
+                    } else if (mois == "Decembre" && today > '1' && today <= '20') {
+                        echo "Attention, nous sommes le $today du mois, il ne vous reste plus beaucoup de temps pour faire vos objectifs."
+                        sleep 10
+                    }
+                }
+            }
+        }
+        /* on peut utiliser ou faire un Skip si la condition est remplie */
+        stage('TEST') {
+            steps {
+                script {
+                    if (params.SKIP_TEST) {
+                        echo 'Skipping tests...'
+                    } else {
+                        echo 'Testing app...'
+                        echo 'Test OK!'
+                        /* Fin de l'action  Skip */
+                        /* A vous de terminer ce super script ----- Bon courage */
+                    }
                 }
             }
         }
