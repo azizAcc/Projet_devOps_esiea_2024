@@ -32,27 +32,27 @@ pipeline {
                 }
             }
         }
-         stage('DEPLOY') {
+        stage('DEPLOY') {
             steps {
                 script {
                     def pythonScript = 'calculImc.py'
                     def healthStateScript = 'heathStateImc.py'
-
+        
                     // Exécution du script Python pour calculer l'IMC
                     def BMIResult = bat(script: "python ${pythonScript} ${params.HEIGHT} ${params.WEIGHT}", returnStatus: false).trim()
                     def BMI = BMIResult ? BMIResult : "N/A"
-
-                    // Stockage de la valeur de l'IMC pour une utilisation ultérieure
-                    env.IMC_VALUE = BMI
-
-                    // Exécution du script Python pour déterminer l'état de santé en utilisant la valeur stockée de l'IMC
-                    def healthStateResult = bat(script: "python ${healthStateScript} ${env.IMC_VALUE}", returnStatus: false).trim()
+        
+                    // Stocker la valeur de l'IMC dans une variable Groovy
+                    def imcValue = BMI.toBigDecimal() // Conversion en BigDecimal pour assurer la précision
+        
+                    // Exécution du script Python pour déterminer l'état de santé
+                    def healthStateResult = bat(script: "python ${healthStateScript} ${imcValue}", returnStatus: false).trim()
                     def healthState = healthStateResult ? healthStateResult : "N/A"
-
+        
                     def stringSex = params.SEX == "MALE" ? "Mister" : "Miss"
-
+        
                     echo "Welcome ${stringSex} ${params.NAME},\nCurrently, you are ${params.AGE} years old,\nweigh ${params.WEIGHT} kg,\nare ${params.HEIGHT} cm tall\nand, you want to lose ${params.LOSE} kg.\n\nYour actual BMI is: ${BMI}\n${healthState}\n\nGood luck and keep hope!"
-
+        
                     sleep 12
                     echo 'Deploy COMPLETE!'
                 }
