@@ -172,19 +172,20 @@ pipeline {
                 }
             }
         }
-        stage ('DEPLOY'){
-            steps{
-                script{
-                    def BMI = bat(script: "python3 calculImc.py ${params.HEIGHT} ${params.WEIGHT}", returnStdout: true).trim()
-                    def healthState = sh(script: "python3 ./heathStateImc.py ${BMI}", returnStdout: true).trim()
-                    def stringSex = ""
-                    if (params.SEX=="MALE") {
-                        stringSex = "Mister"
-                    }
-                    else{
-                        stringSex = "Miss" 
-                    }
+        stage('DEPLOY') {
+            steps {
+                script {
+                    def python3Executable = "python3"
+                    def pythonScript = "calculImc.py"
+                    def healthStateScript = "heathStateImc.py"
+                    
+                    def BMI = bat(script: "${python3Executable} ${pythonScript} ${params.HEIGHT} ${params.WEIGHT}", returnStdout: true).trim()
+                    def healthState = sh(script: "${python3Executable} ./${healthStateScript} ${BMI}", returnStdout: true).trim()
+                    
+                    def stringSex = params.SEX == "MALE" ? "Mister" : "Miss"
+                    
                     echo "Welcome ${stringSex} ${params.NAME},\nCurrently, you are ${params.AGE} years old,\nweigh ${params.WEIGHT} kg,\nare ${params.HEIGHT} cm tall\nand, you want to lose ${params.LOSE} kg.\n\nYour actual BMI is: ${BMI}\n${healthState}\n\nGood luck and keep hope!"
+                    
                     sleep 12
                     echo 'Deploy COMPLETE!'
                 }
