@@ -32,22 +32,25 @@ pipeline {
                 }
             }
         }
-        stage('DEPLOY') {
+       stage('DEPLOY') {
             steps {
                 script {
                     def pythonScript = 'calculImc.py'
                     def healthStateScript = 'heathStateImc.py'
         
                     // Exécution du script Python pour calculer l'IMC
-                    def BMIResult = bat(script: "python ${pythonScript} ${params.HEIGHT} ${params.WEIGHT}", returnStatus: false).trim()
-                    def BMI = BMIResult ? BMIResult : "N/A"
+                    def BMIResult = bat(script: "python ${pythonScript} ${params.HEIGHT} ${params.WEIGHT}", returnStatus: false)
+                    echo "Raw BMI Result: ${BMIResult}" // Ajout pour le débogage
         
-                    // Stocker la valeur de l'IMC dans une variable Groovy
-                    def imcValue = BMI.toBigDecimal() // Conversion en BigDecimal pour assurer la précision
+                    def BMI = BMIResult ? BMIResult.trim() : "N/A"
+                    echo "Trimmed BMI: ${BMI}" // Ajout pour le débogage
         
                     // Exécution du script Python pour déterminer l'état de santé
-                    def healthStateResult = bat(script: "python ${healthStateScript} ${imcValue}", returnStatus: false).trim()
-                    def healthState = healthStateResult ? healthStateResult : "N/A"
+                    def healthStateResult = bat(script: "python ${healthStateScript} ${BMI}", returnStatus: false)
+                    echo "Raw Health State Result: ${healthStateResult}" // Ajout pour le débogage
+        
+                    def healthState = healthStateResult ? healthStateResult.trim() : "N/A"
+                    echo "Trimmed Health State: ${healthState}" // Ajout pour le débogage
         
                     def stringSex = params.SEX == "MALE" ? "Mister" : "Miss"
         
