@@ -2,7 +2,7 @@ import sys
 
 def calculate_bmi(height, weight):
     # Convert height from cm to meters
-    height_meters = height / 100.0
+    height_meters = height / 100
     # Calculate BMI
     bmi = weight / (height_meters ** 2)
     return bmi
