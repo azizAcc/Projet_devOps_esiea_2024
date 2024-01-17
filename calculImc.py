@@ -12,8 +12,12 @@ if __name__ == "__main__":
         print("Usage: python calculImc.py <height_in_cm> <weight_in_kg>")
         sys.exit(1)
 
-    height = float(sys.argv[1])
-    weight = float(sys.argv[2])
+    try:
+        height = float(sys.argv[1])
+        weight = float(sys.argv[2])
+    except ValueError:
+        print("Error: Height and weight must be numeric values.")
+        sys.exit(1)
 
     bmi = calculate_bmi(height, weight)
     print(bmi)
