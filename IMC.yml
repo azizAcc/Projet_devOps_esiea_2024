@@ -35,38 +35,20 @@ pipeline {
         stage('DEPLOY') {
             steps {
                 script {
-                    def pythonScript = 'calculImc.py'
-                    def healthStateScript = 'heathStateImc.py'
+                    def pythonScript = 'calculAndDetermineHealth.py'
         
-                    // Exécution du script Python pour calculer l'IMC
-                    def BMIResult = bat(script: "python ${pythonScript} ${params.HEIGHT} ${params.WEIGHT}", returnStatus: false).trim()
-                    
-                    if (BMIResult.isNumber()) {
-                        def BMI = BMIResult.toBigDecimal()
+                    // Exécution du script Python pour calculer l'IMC et déterminer l'état de santé
+                    def result = bat(script: "python ${pythonScript} ${params.HEIGHT} ${params.WEIGHT}", returnStatus: true)
         
-                        // Exécution du script Python pour déterminer l'état de santé
-                        def healthStateResult = bat(script: "python ${healthStateScript} ${BMI}", returnStatus: false).trim()
-        
-                        if (healthStateResult.isNumber()) {
-                            def healthState = healthStateResult.toBigDecimal()
-        
-                            def stringSex = params.SEX == "MALE" ? "Mister" : "Miss"
-        
-                            echo "Welcome ${stringSex} ${params.NAME},\nCurrently, you are ${params.AGE} years old,\nweigh ${params.WEIGHT} kg,\nare ${params.HEIGHT} cm tall\nand, you want to lose ${params.LOSE} kg.\n\nYour actual BMI is: ${BMI}\n${healthState}\n\nGood luck and keep hope!"
-        
-                            sleep 12
-                            echo 'Deploy COMPLETE!'
-                        } else {
-                            echo "Error: Invalid health state result."
-                            currentBuild.result = 'FAILURE'
-                        }
+                    if (result == 0) {
+                        // Traitement réussi
+                        echo 'Deploy COMPLETE!'
                     } else {
-                        echo "Error: Invalid BMI result."
+                        // Erreur pendant l'exécution
                         currentBuild.result = 'FAILURE'
                     }
                 }
             }
         }
-
     }
 }
