@@ -175,7 +175,7 @@ pipeline {
         stage ('DEPLOY'){
             steps{
                 script{
-                    def BMI = sh(script: "python3 calculImc.py ${params.HEIGHT} ${params.WEIGHT}", returnStdout: true).trim()
+                    def BMI = bat(script: "python3 calculImc.py ${params.HEIGHT} ${params.WEIGHT}", returnStdout: true).trim()
                     def healthState = sh(script: "python3 ./heathStateImc.py ${BMI}", returnStdout: true).trim()
                     def stringSex = ""
                     if (params.SEX=="MALE") {
