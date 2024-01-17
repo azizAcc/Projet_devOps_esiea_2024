@@ -107,6 +107,7 @@ pipeline {
                     } else if (challenges < 2 && mois == 'Fevrier' && today > '1' && today <= '20') {
                         echo "Bienvenue au mois de $mois"
                         echo "Attention, nous sommes le $today du mois, il ne vous reste plus beaucoup de temps pour faire vos objectifs."
+                        echo "objectif atteind a ${(challenges/2)*100}%"
                         sleep 10
                     }
                 }
