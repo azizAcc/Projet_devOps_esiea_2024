@@ -76,12 +76,12 @@ pipeline {
                         challenges = 1 - challenges
                         echo "Voici les challenges possibles : $challenges"
                         sleep 10
-                    } else if (challenges == 0 && mois == 'Janvier' && today > '1' && today <= '20') {
+                    } else if (challenges < 0 && mois == 'Janvier' && today > '1' && today <= '20') {
                         echo "Bienvenue au mois de $mois"
                         echo "Objectif atteint à 0%"
                         echo "Attention, nous sommes le $today du mois, il ne vous reste plus beaucoup de temps pour faire vos objectifs."
                         sleep 10
-                    } else if (challenges == 0 && mois == 'Janvier' && today > '20') {
+                    } else if (challenges < 0 && mois == 'Janvier' && today > '20') {
                         echo "Bienvenue au mois de $mois"
                         echo "Objectif atteint à 0%"
                         echo "Attention, nous sommes le $today du mois, Vous ne pouvez plus réaliser d'objectifs ce mois-ci."
