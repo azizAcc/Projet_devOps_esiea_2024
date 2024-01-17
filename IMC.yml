@@ -39,27 +39,34 @@ pipeline {
                     def healthStateScript = 'heathStateImc.py'
         
                     // Exécution du script Python pour calculer l'IMC
-                    def BMIResult = bat(script: "python ${pythonScript} ${params.HEIGHT} ${params.WEIGHT}", returnStatus: false)
-                    echo "Raw BMI Result: ${BMIResult}" // Ajout pour le débogage
+                    def BMIResult = bat(script: "python ${pythonScript} ${params.HEIGHT} ${params.WEIGHT}", returnStatus: false).trim()
+                    
+                    if (BMIResult.isNumber()) {
+                        def BMI = BMIResult.toBigDecimal()
         
-                    def BMI = BMIResult ?: "N/A"
-                    echo "BMI: ${BMI}" // Ajout pour le débogage
+                        // Exécution du script Python pour déterminer l'état de santé
+                        def healthStateResult = bat(script: "python ${healthStateScript} ${BMI}", returnStatus: false).trim()
         
-                    // Exécution du script Python pour déterminer l'état de santé
-                    def healthStateResult = bat(script: "python ${healthStateScript} ${BMI}", returnStatus: false)
-                    echo "Raw Health State Result: ${healthStateResult}" // Ajout pour le débogage
+                        if (healthStateResult.isNumber()) {
+                            def healthState = healthStateResult.toBigDecimal()
         
-                    def healthState = healthStateResult ?: "N/A"
-                    echo "Health State: ${healthState}" // Ajout pour le débogage
+                            def stringSex = params.SEX == "MALE" ? "Mister" : "Miss"
         
-                    def stringSex = params.SEX == "MALE" ? "Mister" : "Miss"
+                            echo "Welcome ${stringSex} ${params.NAME},\nCurrently, you are ${params.AGE} years old,\nweigh ${params.WEIGHT} kg,\nare ${params.HEIGHT} cm tall\nand, you want to lose ${params.LOSE} kg.\n\nYour actual BMI is: ${BMI}\n${healthState}\n\nGood luck and keep hope!"
         
-                    echo "Welcome ${stringSex} ${params.NAME},\nCurrently, you are ${params.AGE} years old,\nweigh ${params.WEIGHT} kg,\nare ${params.HEIGHT} cm tall\nand, you want to lose ${params.LOSE} kg.\n\nYour actual BMI is: ${BMI}\n${healthState}\n\nGood luck and keep hope!"
-        
-                    sleep 12
-                    echo 'Deploy COMPLETE!'
+                            sleep 12
+                            echo 'Deploy COMPLETE!'
+                        } else {
+                            echo "Error: Invalid health state result."
+                            currentBuild.result = 'FAILURE'
+                        }
+                    } else {
+                        echo "Error: Invalid BMI result."
+                        currentBuild.result = 'FAILURE'
+                    }
                 }
             }
         }
+
     }
 }
