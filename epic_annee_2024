@@ -117,7 +117,7 @@ pipeline {
                         sleep 10
                     }else if (challenges == 0 && mois == 'Fevrier' && today > '20') {
                         echo "Bienvenue au mois de $mois"
-                        echo "Objectif atteint à 0%"
+                        echo "Objectif atteint a 0%"
                         echo "Attention, nous sommes le $today du mois, Vous ne pouvez plus realiser d'objectifs ce mois-ci."
                         sleep 10
                     }
@@ -147,6 +147,11 @@ pipeline {
                         echo "Attention, nous sommes le $today du mois, il ne vous reste plus beaucoup de temps pour faire vos objectifs."
                         echo "objectif atteind a ${(challenges/2)*100}%"
                         sleep 10
+                    }else if (challenges == 0 && mois == 'Mars' && today > '20') {
+                        echo "Bienvenue au mois de $mois"
+                        echo "Objectif atteint a 0%"
+                        echo "Attention, nous sommes le $today du mois, Vous ne pouvez plus realiser d'objectifs ce mois-ci."
+                        sleep 10
                     }
                 }
             }
@@ -173,6 +178,11 @@ pipeline {
                         echo "Bienvenue au mois de $mois"
                         echo "Attention, nous sommes le $today du mois, il ne vous reste plus beaucoup de temps pour faire vos objectifs."
                         echo "objectif atteind a ${(challenges/2)*100}%"
+                        sleep 10
+                    }else if (challenges == 0 && mois == 'Avril' && today > '20') {
+                        echo "Bienvenue au mois de $mois"
+                        echo "Objectif atteint a 0%"
+                        echo "Attention, nous sommes le $today du mois, Vous ne pouvez plus realiser d'objectifs ce mois-ci."
                         sleep 10
                     }
                 }
@@ -201,6 +211,11 @@ pipeline {
                         echo "Attention, nous sommes le $today du mois, il ne vous reste plus beaucoup de temps pour faire vos objectifs."
                         echo "objectif atteind a ${(challenges/2)*100}%"
                         sleep 10
+                    }else if (challenges == 0 && mois == 'Mai' && today > '20') {
+                        echo "Bienvenue au mois de $mois"
+                        echo "Objectif atteint a 0%"
+                        echo "Attention, nous sommes le $today du mois, Vous ne pouvez plus realiser d'objectifs ce mois-ci."
+                        sleep 10
                     }
                 }
             }
@@ -227,6 +242,11 @@ pipeline {
                         echo "Bienvenue au mois de $mois"
                         echo "Attention, nous sommes le $today du mois, il ne vous reste plus beaucoup de temps pour faire vos objectifs."
                         echo "objectif atteind a ${(challenges/2)*100}%"
+                        sleep 10
+                    }else if (challenges == 0 && mois == 'Juin' && today > '20') {
+                        echo "Bienvenue au mois de $mois"
+                        echo "Objectif atteint a 0%"
+                        echo "Attention, nous sommes le $today du mois, Vous ne pouvez plus realiser d'objectifs ce mois-ci."
                         sleep 10
                     }
                 }
@@ -255,6 +275,11 @@ pipeline {
                         echo "Attention, nous sommes le $today du mois, il ne vous reste plus beaucoup de temps pour faire vos objectifs."
                         echo "objectif atteind a ${(challenges/2)*100}%"
                         sleep 10
+                    }else if (challenges == 0 && mois == 'Juillet' && today > '20') {
+                        echo "Bienvenue au mois de $mois"
+                        echo "Objectif atteint a 0%"
+                        echo "Attention, nous sommes le $today du mois, Vous ne pouvez plus realiser d'objectifs ce mois-ci."
+                        sleep 10
                     }
                 }
             }
@@ -281,6 +306,11 @@ pipeline {
                         echo "Bienvenue au mois de $mois"
                         echo "Attention, nous sommes le $today du mois, il ne vous reste plus beaucoup de temps pour faire vos objectifs."
                         echo "objectif atteind a ${(challenges/2)*100}%"
+                        sleep 10
+                    }else if (challenges == 0 && mois == 'Aout' && today > '20') {
+                        echo "Bienvenue au mois de $mois"
+                        echo "Objectif atteint a 0%"
+                        echo "Attention, nous sommes le $today du mois, Vous ne pouvez plus realiser d'objectifs ce mois-ci."
                         sleep 10
                     }
                 }
@@ -309,6 +339,11 @@ pipeline {
                         echo "Attention, nous sommes le $today du mois, il ne vous reste plus beaucoup de temps pour faire vos objectifs."
                         echo "objectif atteind a ${(challenges/2)*100}%"
                         sleep 10
+                    }else if (challenges == 0 && mois == 'Septembre' && today > '20') {
+                        echo "Bienvenue au mois de $mois"
+                        echo "Objectif atteint a 0%"
+                        echo "Attention, nous sommes le $today du mois, Vous ne pouvez plus realiser d'objectifs ce mois-ci."
+                        sleep 10
                     }
                 }
             }
@@ -335,6 +370,11 @@ pipeline {
                         echo "Bienvenue au mois de $mois"
                         echo "Attention, nous sommes le $today du mois, il ne vous reste plus beaucoup de temps pour faire vos objectifs."
                         echo "objectif atteind a ${(challenges/2)*100}%"
+                        sleep 10
+                    }else if (challenges == 0 && mois == 'Octobre' && today > '20') {
+                        echo "Bienvenue au mois de $mois"
+                        echo "Objectif atteint a 0%"
+                        echo "Attention, nous sommes le $today du mois, Vous ne pouvez plus realiser d'objectifs ce mois-ci."
                         sleep 10
                     }
                 }
@@ -363,6 +403,11 @@ pipeline {
                         echo "Attention, nous sommes le $today du mois, il ne vous reste plus beaucoup de temps pour faire vos objectifs."
                         echo "objectif atteind a ${(challenges/2)*100}%"
                         sleep 10
+                    }else if (challenges == 0 && mois == 'Novembre' && today > '20') {
+                        echo "Bienvenue au mois de $mois"
+                        echo "Objectif atteint a 0%"
+                        echo "Attention, nous sommes le $today du mois, Vous ne pouvez plus realiser d'objectifs ce mois-ci."
+                        sleep 10
                     }
                 }
             }
@@ -389,6 +434,11 @@ pipeline {
                         echo "Bienvenue au mois de $mois"
                         echo "Attention, nous sommes le $today du mois, il ne vous reste plus beaucoup de temps pour faire vos objectifs."
                         echo "objectif atteind a ${(challenges/2)*100}%"
+                        sleep 10
+                    }else if (challenges == 0 && mois == 'Decembre' && today > '20') {
+                        echo "Bienvenue au mois de $mois"
+                        echo "Objectif atteint a 0%"
+                        echo "Attention, nous sommes le $today du mois, Vous ne pouvez plus realiser d'objectifs ce mois-ci."
                         sleep 10
                     }
                 }
