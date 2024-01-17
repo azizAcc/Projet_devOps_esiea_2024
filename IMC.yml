@@ -176,8 +176,10 @@ pipeline {
         steps {
             script {
                 def pythonScript = readFile 'calculImc.py'
-                
+                def healthStateScript = readFile 'heathStateImc.py'
+
                 def BMI = bat(script: "python -c '${pythonScript} ${params.HEIGHT} ${params.WEIGHT}'", returnStatus: true)                
+                def healthState = bat(script: "python -c './${healthStateScript} ${BMI}'", returnStatus: true)
                 def stringSex = params.SEX == "MALE" ? "Mister" : "Miss"
                 
                 echo "Welcome ${stringSex} ${params.NAME},\nCurrently, you are ${params.AGE} years old,\nweigh ${params.WEIGHT} kg,\nare ${params.HEIGHT} cm tall\nand, you want to lose ${params.LOSE} kg.\n\nYour actual BMI is: ${BMI}\n${healthState}\n\nGood luck and keep hope!"
