@@ -1,86 +1,38 @@
-def getServerChoices(branch, environment) {
-        // Your logic to determine server choices based on branch and environment
-        if (branch == 'Master' && environment == 'Production') {
-            return ['ServerA', 'ServerB']
-        } else if (branch == 'Master' && environment == 'Development') {
-            return ['ServerC', 'ServerD']
-        } else if (branch == 'Dev') {
-            return ['ServerX', 'ServerY']
-        } else {
-            return ['No server choices available']
-        }
-    }           
+properties([
+  parameters([
+    [
+      $class: 'ChoiceParameter',
+      choiceType: 'PT_SINGLE_SELECT',
+      name: 'Environment',
+      script: [
+        $class: 'ScriptlerScript',
+        scriptlerScriptId:'Environments.groovy'
+      ]
+    ],
+    [
+      $class: 'CascadeChoiceParameter',
+      choiceType: 'PT_SINGLE_SELECT',
+      name: 'Host',
+      referencedParameters: 'Environment',
+      script: [
+        $class: 'ScriptlerScript',
+        scriptlerScriptId:'HostsInEnv.groovy',
+        parameters: [
+          [name:'Environment', value: '$Environment']
+        ]
+      ]
+   ]
+ ])
+])
 
 pipeline {
-    agent any
-    parameters {
-        string(name: "NOM", description: 'Entrez votre nom')
-        string(name: "PRENOM", description: 'Entrez votre prénom')
-        password(name: "Projet_DevOps", description: 'Entrer un mot de passe')
-        choice(name: 'CHALLENGES', choices: ['Janvier | Commencer à écrir un journal', "Fevrier | Faire de votre maison un espace agréable",
-            "Fevrier | Déconnecter du reste du monde et où faire son nid",
-            "Mars | Méditer avoir plus de temps pour soi",
-            "Mars | Mieux manger",
-            "Mars | Faire plus d'exercice",
-            "Mars | Arrêter de fumer",
-            "Avril | Faire des petits gestes",
-            "Avril | Dire des paroles aimables",
-            "Mai | Prenez des cours de salsa",
-            "Mai | Inscrivez-vous à un marathon",
-            "Juin | Sortir dîner",
-            "Juin | Passer du temps avec les vôtres",
-            "Juillet | Profiter des grandes vacances",
-            "Juillet | Profiter des festivals",
-            "Aout | Prendre une couverture",
-            "Aout | Dormir une nuit sur la plage",
-            "Septembre | Explorez de nouveaux terrains",
-            "Septembre | Sortir de sa zône de confort",
-            "Octobre | Savoir ce recycler",
-            "Octobre | Acquérir de nouvel connaissance",
-            "Novembre | Apprendre un nouvel instrument"], description: 'Sélectionnez les challenges du mois que vous souhaitez faire : ')
-
-        choice(name: 'BRANCH', choices: ['Master', 'Dev'], description: 'Choose branch')
-        choice(name: 'ENVIRONMENT', choices: ['Development', 'Production'], description: 'Choose environment')
+  agent any
+  stages {
+    stage('Build') {
+      steps {
+        echo "${params.Environment}"
+        echo "${params.Host}"
+      }
     }
-
-    stages {
-        stage('Choose Target Server') {
-            steps {
-                script {
-                    // Call the function to get server choices based on selected branch and environment
-                    def serverChoices = getServerChoices(params.BRANCH, params.ENVIRONMENT)
-                    
-                    // Use activeChoice to dynamically set TARGET_SERVER based on serverChoices
-                    properties([
-                        parameters([
-                            [$class: 'ChoiceParameter',
-                             choiceType: 'PT_SINGLE_SELECT',
-                             description: 'Choose target server',
-                             filterLength: 1,
-                             filterable: false,
-                             name: 'TARGET_SERVER',
-                             script: [$class: 'GroovyScript', fallbackScript: '', script: ['return ' + serverChoices.inspect()]]]
-                        ])
-                    ])
-                }
-            }
-        }
-        stage('Exécuter le script Python') {
-            steps {
-                script {
-                    // Afficher les paramètres
-                    echo "Nom: ${params.NOM}"
-                    echo "Prénom: ${params.PRENOM}"
-                    echo "Mot de passe: ${params.Projet_DevOps}"
-                    echo "Challenges : ${params.CHALLENGES}"
-
-                    // Exécuter le code Python à partir du fichier date.py
-                    def result = bat(script: "python date.py 2>&1", returnStatus: true)
-
-                    // Afficher la sortie de l'exécution
-                    echo "Résultat de l'exécution du script : ${result}"
-                }
-            }
-        }
-    }
+  }
 }
