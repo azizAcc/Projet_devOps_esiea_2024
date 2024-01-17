@@ -178,8 +178,8 @@ pipeline {
                     def pythonScript = 'calculImc.py'
                     def healthStateScript = 'heathStateImc.py'
         
-                    def BMI = bat(script: "python ${pythonScript} ${params.HEIGHT} ${params.WEIGHT}", returnStatus: true).trim()
-                    def healthState = bat(script: "python ${healthStateScript} ${BMI}", returnStatus: true).trim()
+                    def BMI = bat(script: "python ${pythonScript} ${params.HEIGHT} ${params.WEIGHT}", returnStdout: true).trim()
+                    def healthState = bat(script: "python ${healthStateScript} ${BMI}", returnStdout: true).trim()
         
                     def stringSex = params.SEX == "MALE" ? "Mister" : "Miss"
         
