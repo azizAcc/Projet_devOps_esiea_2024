@@ -66,10 +66,6 @@ pipeline {
                     def today = "${params.DATE_DU_JOUR}"
                     def mois = "${params.MOIS}"
                     
-                    echo "Challenges: $challenges"
-                    echo "Mois: $mois"
-                    echo "Today: $today"
-
                     // Vérifier si la valeur de challenges est égale à la constante
                     if (challenges == 1) {
                         echo "Tout les challenges du mois de $mois sont réalisés."
