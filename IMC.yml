@@ -32,7 +32,7 @@ pipeline {
                 }
             }
         }
-        stage('DEPLOY') {
+         stage('DEPLOY') {
             steps {
                 script {
                     def pythonScript = 'calculImc.py'
@@ -42,8 +42,11 @@ pipeline {
                     def BMIResult = bat(script: "python ${pythonScript} ${params.HEIGHT} ${params.WEIGHT}", returnStatus: false).trim()
                     def BMI = BMIResult ? BMIResult : "N/A"
 
-                    // Exécution du script Python pour déterminer l'état de santé
-                    def healthStateResult = bat(script: "python ${healthStateScript} ${BMI}", returnStatus: false).trim()
+                    // Stockage de la valeur de l'IMC pour une utilisation ultérieure
+                    env.IMC_VALUE = BMI
+
+                    // Exécution du script Python pour déterminer l'état de santé en utilisant la valeur stockée de l'IMC
+                    def healthStateResult = bat(script: "python ${healthStateScript} ${env.IMC_VALUE}", returnStatus: false).trim()
                     def healthState = healthStateResult ? healthStateResult : "N/A"
 
                     def stringSex = params.SEX == "MALE" ? "Mister" : "Miss"
