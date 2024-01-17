@@ -86,7 +86,7 @@ pipeline {
                         echo "Objectif atteint à 0%"
                         echo "Attention, nous sommes le $today du mois, Vous ne pouvez plus réaliser d'objectifs ce mois-ci."
                         sleep 10
-                    } 
+                    }
                 }
             }
         }
